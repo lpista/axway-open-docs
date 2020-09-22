@@ -41,11 +41,9 @@ SubjectAlternativeName [
  ]
 ```
 
-### Removed broken and risky algorithms from sFTP server 
+### Removed broken and risky algorithms from sFTP server
 
-Broken and risky algorithms utilized in sFTP protocols exposed in all previous versions of API Gateway have been removed to mitigate possible attacks against those services. 
-
-This means that any ftp client that uses any of the removed algorithms **cannot connect** to the sFTP server after this release.
+Broken and risky algorithms utilized in sFTP protocols exposed in all previous versions of API Gateway have been removed to mitigate possible attacks against those services. This means that any FTP client that uses any of the removed algorithms **cannot connect** to the sFTP server after this release.
 
 The list of removed broken and risky algorithms is:
 
@@ -53,7 +51,6 @@ The list of removed broken and risky algorithms is:
 * **Mac Algorithms**: `hmac-md5`, `hmac-sha1`, `hmac-sha1-96`, `hmac-md5-96`
 * **Key exchange**: `diffie-hellman-group-exchange-sha1`, `diffie-hellman-group18-sha512`, `diffie-hellman-group17-sha512`, `diffie-hellman-group16-sha512`,
 `diffie-hellman-group15-sha512`, `diffie-hellman-group14-sha256`, `diffie-hellman-group14-sha1`, `diffie-hellman-group1-sha1`
-
 
 The sFTP server currently supports:
 

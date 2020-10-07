@@ -28,7 +28,7 @@
 ---------------
 ## Version [7.7.20200930](https://axway-open-docs.netlify.app/docs/apim_relnotes/20200930_apimgr_relnotes/) {#7.7.20200930}
 ### Highlights
-* API Manager Remote host updates
+* API Manager Remote Hosts aligned with PolicyStudio functionality
 * YAML-based configuration store (Technical preview)
 * Database integration updates
 * User membership in multiple organizations

@@ -1,11 +1,10 @@
 {
-    "title": "Additional integrity filters",
-    "linkTitle": "Additional integrity filters",
-    "weight": 97,
-    "date": "2019-10-17",
-    "description": "Sign and verify JWT and SMIME messages."
+"title": "Additional integrity filters",
+  "linkTitle": "Additional integrity filters",
+  "weight": 97,
+  "date": "2019-10-17",
+  "description": "Sign and verify JWT and SMIME messages."
 }
-
 ## JWT Sign filter
 
 You can use the **JWT Sign** filter to sign arbitrary content (for example, a JWT claims set). The result is called JSON Web Signature (JWS).
@@ -70,7 +69,7 @@ If you selected the asymmetric key type, configure the following fields in the *
 * **Algorithm**: Select one of the available algorithms to sign the JWT.
 
   | Algorithm | Description                                    |
-  |-----------|------------------------------------------------|
+  | --------- | ---------------------------------------------- |
   | ES256     | ECDSA using P-256 and SHA-256                  |
   | ES384     | ECDSA using P-384 and SHA-384                  |
   | ES512     | ECDSA using P-521 and SHA-512                  |
@@ -82,12 +81,12 @@ If you selected the asymmetric key type, configure the following fields in the *
   | PS512     | RSASSA-PSS using SHA-512 and MGF1 with SHA-512 |
 
   The selected algorithm must be compatible with the selected certificate. When a certificate is selected from the certificate store, this will be validated when the filter is saved. A selector based alias can only be validated at runtime, and an incompatible certificate will cause the filter to fail.
-
 * **Use Key ID (kid)**: Selecting this option will add a `kid` header parameter to the JOSE header part of the token. The `kid` header parameter is a hint indicating which public/private key pair was used to secure the JWS. The following options are available:
-    * **Use Cert Alias**: The alias of the selected Certificate.
-    * **Compute Cert x5t**: A Base64Url encoded SHA1 digest (thumbprint) of the DER encoded X509 Certificate.
-    * **Compute Cert x5t#256**: A Base64Url encoded SHA256 digest (thumbprint) of the DER encoded X509 Certificate.
-    * **Selector Expression**: A static string or selector expression can be used to set a custom key ID that has a contextual meaning.
+
+  * **Use Cert Alias**: The alias of the selected Certificate.
+  * **Compute Cert x5t**: A Base64Url encoded SHA1 digest (thumbprint) of the DER encoded X509 Certificate.
+  * **Compute Cert x5t#256**: A Base64Url encoded SHA256 digest (thumbprint) of the DER encoded X509 Certificate.
+  * **Selector Expression**: A static string or selector expression can be used to set a custom key ID that has a contextual meaning.
 
 #### Symmetric key type
 
@@ -96,18 +95,15 @@ If you selected the **Symmetric key type** option, complete the following fields
 * **Shared key**: Enter the shared key used to sign the payload. The key should be given as a base64-encoded byte array and must use the following minimum lengths depending on the selected algorithm used to sign:
 
   | Algorithm                  | Minimum key length  |
-  |----------------------------|---------------------|
+  | -------------------------- | ------------------- |
   | HMAC using SHA-256 (HS256) | 32 bytes (256 bits) |
   | HMAC using SHA-384 (HS384) | 48 bytes (384 bits) |
   | HMAC using SHA-512 (HS512) | 64 bytes (512 bits) |
-
 * **Selector expression**: Alternatively, enter a selector expression to obtain the shared key. The value returned from the selector should contain:
 
-    * Byte array (possibly produced by a different filter)
-    * Base64-encoded byte array
-
+  * Byte array (possibly produced by a different filter)
+  * Base64-encoded byte array
 * **Algorithm**: Select the algorithm used to protect the token.
-
 * **Use Key ID (kid)**: Selecting this option will add a `kid` header parameter to the JOSE header part of the token. The `kid` header parameter is a hint indicating which public/private key pair was used to secure the JWS. This value can be defined as a static string or a selector expression.
 
 ### Signature JOSE Header
@@ -145,6 +141,47 @@ Enabling all of the settings will produce a header with the following structure:
   "alg": "RS256",
 }
 ```
+
+### Payload
+
+This tab configures the contents of the JWT or JWS payload.
+
+#### Generate JWS
+Select to generate the JWS payload
+
+* **Selector expression**: A selector is used to generate the payload. If the selector evaluates as empty or null, the filter will fail.
+* **Generate 'cty' claim (forced for nested JWT/JWS)**: If selected then the cty header parameter is forced to be generated. See [JWS RFC 7515](https://tools.ietf.org/html/rfc7519#appendix-A.2) for an example of a Nested JWT.
+
+#### Generate JWT
+Select to to defined the set of JWT Claims to be presented in the payload. You can find a detailed explanation for each claim at [JWT RFC 7519](https://tools.ietf.org/html/rfc7519#section-4.1).
+
+* **JSON Template**: A JSON object containing a JWT claims set. This could be used to specified Public Claim Names and/or Private Claim Names.
+
+The following allows to specify the contents of the Registered Claim Names:
+* **Issuer 'iss'**: A selector can be used to specify the iss claim. If the selector evaluates as empty or null, the filter will fail.
+* **Subject 'sub'**: A selector can be used to specify the sub claim. If the selector evaluates as empty or null, the filter will fail.
+* **ID 'jti**': A selector can be used to specify the jti claim. If the selector evaluates as empty or null, the filter will fail.
+* **Audience 'aud'**: A single case-sensitive string containing a StringOrURI for the aud claim.
+* **Delay before usage 'nbf' (relative to system time)**: The value in seconds for the nbf claim
+* **Delay before expiration 'exp' (relative to 'nbf')**: The value in seconds for the exp claim.
+* **Include system time 'iat'**: If selected, then the iat is included in the generated payload
+
+The following allow to specify Public Claim Names for OPENID
+* **Access Token (generate 'at_hash' half hash)**: A selector can be used to specify the at_hash claim. If the selector evaluates as empty or null, the filter will fail.
+* **Authorization Code (generate 'c_hash' half hash)**: A selector can be used to specify the c_hash claim. If the selector evaluates as empty or null, the filter will fail.
+	
+### Advanced (JWS/JWT)
+This tab allows to configure:
+
+
+* **Critical extensions 'crit'**: Set of values to add to the crit header 
+
+* **Extend JWS Header using a Policy**: Select a policy that when called, the contents of its invocation are added to the JWS Header
+
+* **Alternate JWT Audiences**: Allows to set the JWT 'aud' value to be an array of case-sensitive strings, each containing a StringOrURI value.
+
+* **Extend JWT Payload using a Policy**: Select a policy that when called, the contents of its invocation are added to the JWT Payload
+
 
 ## JWT Verify filter
 
@@ -217,9 +254,10 @@ The **JWT Verify** filter verifies the JWT signature with the token payload onl
 
 * Make sure that the certificate used to generate the signature is valid (for example, check that it is not blacklisted or expired). You can use the API Gateway CRL and OCSP filters in your policy for this step.
 * Validate the JWT token claims. For example, this includes the following checks:
-    * `aud`: Audience—check that the token has been created for the correct user.
-    * `iss`: Issuer—check that the token was issued by a trusted token provider.
-    * `exp`: Expiry time—check that the token has not already expired.
+
+  * `aud`: Audience—check that the token has been created for the correct user.
+  * `iss`: Issuer—check that the token was issued by a trusted token provider.
+  * `exp`: Expiry time—check that the token has not already expired.
 
 ## Sign SMIME message filter
 

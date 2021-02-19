@@ -81,6 +81,7 @@ If you selected the asymmetric key type, configure the following fields in the *
   | PS512     | RSASSA-PSS using SHA-512 and MGF1 with SHA-512 |
 
   The selected algorithm must be compatible with the selected certificate. When a certificate is selected from the certificate store, this will be validated when the filter is saved. A selector based alias can only be validated at runtime, and an incompatible certificate will cause the filter to fail.
+
 * **Use Key ID (kid)**: Select to add a `kid` header parameter to the JOSE header part of the token. The `kid` header parameter is a hint indicating which public/private key pair was used to secure the JWS. The following options are available:
 
     * **Use Cert Alias**: The alias of the selected Certificate.
@@ -104,7 +105,7 @@ If you selected the **Symmetric key type** option, complete the following fields
     * Byte array (possibly produced by a different filter)
     * Base64-encoded byte array
 * **Algorithm**: Select the algorithm used to protect the token.
-* **Use Key ID (kid)**: AddS a `kid` header parameter to the JOSE header part of the token. The `kid` header parameter is a hint indicating which public/private key pair was used to secure the JWS. This value can be defined as a static string or a selector expression.
+* **Use Key ID (kid)**: Adds a `kid` header parameter to the JOSE header part of the token. The `kid` header parameter is a hint indicating which public/private key pair was used to secure the JWS. This value can be defined as a static string or a selector expression.
 
 ### Signature JOSE Header
 
@@ -249,6 +250,13 @@ You can configure the following optional setting in the **JWK from external sour
 
 **JSON web key**:
 You can verify signed tokens using a selector expression containing the value of a `JSON Web Key (JWK)`. The return type of the selector expression must be of type String.
+
+**Critical Headers**: You can add a list of acceptable “crit” headers (list of JWT claims), which will be validated against the list of claims present in the “crit” header of the JWT token being processed. The validation works as follows:
+
+* Successful, if all claims present in the “crit” header list of the JWT token match the lists you have configured.
+* Fail with `reason: unknown header`, if any of the claims present is the JWT token do not match the lists you have configured.
+* Fail with `reason: unknown header`, if the JWT token has a crit header list specified and you did not configured any list for your JWT verify filter.
+* Fail with `reason: crit header cannot be empty`, if the JWT token has an empty “crit” header list.
 
 ### Additional JWT verification steps
 
